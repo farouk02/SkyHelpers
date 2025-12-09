@@ -54,6 +54,7 @@ Safe parsing utilities for common types.
 #### Features
 - **Int**: Parses to `int?`. Returns `null` on failure.
 - **Decimal**: Parses to `decimal`. Returns `0` on failure.
+- **Double**: Parses to `double`. Returns `0` on failure.
 - **Boolean**: Parses to `bool`. Returns `false` on failure.
 - **DateTime**: Parses to `DateTime?`. Returns `null` on failure.
 
@@ -63,6 +64,7 @@ using SkyHelpers;
 
 int? id = Parse.Int("123");
 decimal price = Parse.Decimal("19.99");
+double lat = Parse.Double("48.8566");
 bool isActive = Parse.Boolean("true");
 DateTime? date = Parse.DateTime("2023-01-01");
 ```
