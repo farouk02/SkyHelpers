@@ -90,3 +90,34 @@ public class MyEntity : IBeforeCreate
     }
 }
 ```
+
+### PasswordHelper
+
+BCrypt password hashing compatible with Laravel (`$2y$` prefix).
+
+#### Features
+- **HashPassword**: Hashes a password with BCrypt (default cost 10) and uses `$2y$` prefix.
+- **VerifyPassword**: Verifies a password against a hash (supports `$2y$`, `$2a$`, `$2b$`).
+
+#### Usage
+```csharp
+using SkyHelpers;
+
+string hash = PasswordHelper.HashPassword("secret");
+bool isValid = PasswordHelper.VerifyPassword("secret", hash);
+```
+
+### WhatsApp
+
+A simple wrapper around Twilio for sending WhatsApp messages.
+
+#### Properties
+- **SendMessageAsync**: Sends a WhatsApp message from the configured sender to a recipient.
+
+#### Usage
+```csharp
+using SkyHelpers;
+
+var wa = new WhatsApp("AC...", "AuthToken...", "+14155238886");
+await wa.SendMessageAsync("+15551234567", "Hello World!");
+```
