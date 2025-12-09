@@ -5,15 +5,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
-    <PackageId>MyUtilityLibrary.UniqueId</PackageId>
+    <PackageId>OneCleek.SkyHelpers</PackageId>
     <Version>1.0.0</Version>
-    <Authors>YourName</Authors>
-    <Company>YourCompany</Company>
+    <Authors>Farouk Kious</Authors>
+    <Company>OneCleek</Company>
     <Description>A helpful library for doing utility tasks.</Description>
     <PackageTags>utility;helper;csharp</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    
-    <RepositoryUrl>https://github.com/yourusername/MyUtilityLibrary</RepositoryUrl>
+
+    <RepositoryUrl>https://github.com/farouk02/SkyHelpers</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
