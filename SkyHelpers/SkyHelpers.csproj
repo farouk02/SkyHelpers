@@ -4,6 +4,16 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+
+    <PackageId>MyUtilityLibrary.UniqueId</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>YourName</Authors>
+    <Company>YourCompany</Company>
+    <Description>A helpful library for doing utility tasks.</Description>
+    <PackageTags>utility;helper;csharp</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    
+    <RepositoryUrl>https://github.com/yourusername/MyUtilityLibrary</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
