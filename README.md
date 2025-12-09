@@ -23,12 +23,13 @@ using System.Globalization;
 var date = DateTime.Now.AddMinutes(-5);
 string relative = DateHelper.RelativeAgo(date); // "5 min ago" (if en)
 
-// To change language, set the current thread's culture:
-// CultureInfo.CurrentUICulture = new CultureInfo("fr");
-// relative = DateHelper.RelativeAgo(date); // "il y a 5 min"
+// Explicit Culture (French)
+var frCulture = new CultureInfo("fr");
+string relativeFr = DateHelper.RelativeAgo(date, frCulture); // "il y a 5 min"
 
 // Hijri Date
 string hijri = DateHelper.GetHijriDate(DateTime.Now); // "10 Ramadan 1445"
+string hijriAr = DateHelper.GetHijriDate(DateTime.Now, culture: new CultureInfo("ar")); // "10 رمضان 1445"
 ```
 
 ### LocalizationHelper
@@ -38,9 +39,10 @@ Internal helper for retrieving localized strings.
 #### Features
 - **GetString**: Retrieves a localized string key.
 - **GetRelativeString**: Helper for past/future relative date strings.
-- **Automatic Culture**: Always uses `CultureInfo.CurrentUICulture`.
+- **Culture Support**: Accepts optional `CultureInfo`, defaults to `CurrentUICulture`.
 
 #### Usage (Internal)
 ```csharp
 string text = LocalizationHelper.GetString("KeyName");
+string textFr = LocalizationHelper.GetString("KeyName", new CultureInfo("fr"));
 ```
