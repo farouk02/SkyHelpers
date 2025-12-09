@@ -46,3 +46,45 @@ Internal helper for retrieving localized strings.
 string text = LocalizationHelper.GetString("KeyName");
 string textFr = LocalizationHelper.GetString("KeyName", new CultureInfo("fr"));
 ```
+
+### Parse
+
+Safe parsing utilities for common types.
+
+#### Features
+- **Int**: Parses to `int?`. Returns `null` on failure.
+- **Decimal**: Parses to `decimal`. Returns `0` on failure.
+- **Boolean**: Parses to `bool`. Returns `false` on failure.
+- **DateTime**: Parses to `DateTime?`. Returns `null` on failure.
+
+#### Usage
+```csharp
+using SkyHelpers;
+
+int? id = Parse.Int("123");
+decimal price = Parse.Decimal("19.99");
+bool isActive = Parse.Boolean("true");
+DateTime? date = Parse.DateTime("2023-01-01");
+```
+
+### Hooks
+
+Interfaces for common entity framework entity lifecycle hooks.
+
+#### Features
+- **IBeforeCreate**: `void BeforeCreate()`
+- **IBeforeUpdate**: `void BeforeUpdate()`
+- **IBeforeDelete**: `void BeforeDelete()`
+
+#### Usage
+```csharp
+using SkyHelpers;
+
+public class MyEntity : IBeforeCreate
+{
+    public void BeforeCreate()
+    {
+        // Logic before creation
+    }
+}
+```
