@@ -15,34 +15,27 @@
             bool future = diff.TotalSeconds < 0;
             var span = TimeSpan.FromSeconds(Math.Abs(diff.TotalSeconds));
 
-            string GetString(string pastKey, string futureKey, object arg = null)
-            {
-                string key = future ? futureKey : pastKey;
-                string format = Resource.ResourceManager.GetString(key, culture ?? System.Globalization.CultureInfo.CurrentUICulture) ?? "";
-                return arg == null ? format : string.Format(format, arg);
-            }
-
             if (span.TotalSeconds < 5)
-                return GetString("JustNow", "InAMoment");
+                return LocalizationHelper.GetRelativeString(future, "JustNow", "InAMoment", culture);
             if (span.TotalSeconds < 60)
-                return GetString("SecondsPast", "SecondsFuture", (int)span.TotalSeconds);
+                return LocalizationHelper.GetRelativeString(future, "SecondsPast", "SecondsFuture", culture, (int)span.TotalSeconds);
             if (span.TotalMinutes < 2)
-                return GetString("MinutePast", "MinuteFuture");
+                return LocalizationHelper.GetRelativeString(future, "MinutePast", "MinuteFuture", culture);
             if (span.TotalMinutes < 60)
-                return GetString("MinutesPast", "MinutesFuture", (int)span.TotalMinutes);
+                return LocalizationHelper.GetRelativeString(future, "MinutesPast", "MinutesFuture", culture, (int)span.TotalMinutes);
             if (span.TotalHours < 2)
-                return GetString("HourPast", "HourFuture");
+                return LocalizationHelper.GetRelativeString(future, "HourPast", "HourFuture", culture);
             if (span.TotalHours < 24)
-                return GetString("HoursPast", "HoursFuture", (int)span.TotalHours);
+                return LocalizationHelper.GetRelativeString(future, "HoursPast", "HoursFuture", culture, (int)span.TotalHours);
             if (span.TotalDays < 2)
-                return GetString("DayPast", "DayFuture");
+                return LocalizationHelper.GetRelativeString(future, "DayPast", "DayFuture", culture);
             if (span.TotalDays < 7)
-                return GetString("DaysPast", "DaysFuture", (int)span.TotalDays);
+                return LocalizationHelper.GetRelativeString(future, "DaysPast", "DaysFuture", culture, (int)span.TotalDays);
             if (span.TotalDays < 30)
-                return GetString("WeeksPast", "WeeksFuture", (int)(span.TotalDays / 7));
+                return LocalizationHelper.GetRelativeString(future, "WeeksPast", "WeeksFuture", culture, (int)(span.TotalDays / 7));
             if (span.TotalDays < 365)
-                return GetString("MonthsPast", "MonthsFuture", (int)(span.TotalDays / 30));
-            return GetString("YearsPast", "YearsFuture", (int)(span.TotalDays / 365));
+                return LocalizationHelper.GetRelativeString(future, "MonthsPast", "MonthsFuture", culture, (int)(span.TotalDays / 30));
+            return LocalizationHelper.GetRelativeString(future, "YearsPast", "YearsFuture", culture, (int)(span.TotalDays / 365));
         }
 
         public static string GetHijriDate(DateTime dt, int adjustDays = 0, bool showMonthNames = true, bool useAlThaniyahForJumada = true, System.Globalization.CultureInfo? culture = null)
@@ -61,7 +54,7 @@
 
             if (showMonthNames)
             {
-                string jumada2 = Resource.ResourceManager.GetString(useAlThaniyahForJumada ? "Jumada2_AlThaniyah" : "Jumada2_AlAkherah", cultureInfo) ?? "";
+                string jumada2 = LocalizationHelper.GetString(useAlThaniyahForJumada ? "Jumada2_AlThaniyah" : "Jumada2_AlAkherah", cultureInfo);
                 
                 // Fetch months from resources
                 string[] months = new string[13];
@@ -71,7 +64,7 @@
                    if (i == 6) 
                        months[i] = jumada2;
                    else
-                       months[i] = Resource.ResourceManager.GetString($"HijriMonth{i}", cultureInfo) ?? "";
+                       months[i] = LocalizationHelper.GetString($"HijriMonth{i}", cultureInfo);
                 }
 
                 return $"{day:00} {months[month]} {year:0000}";
