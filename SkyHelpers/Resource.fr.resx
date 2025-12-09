@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
 		<xsd:element name="root" msdata:IsDataSet="true">
@@ -40,73 +40,73 @@
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
 	<data name="JustNow" xml:space="preserve">
-		<value>just now</value>
+		<value>à l'instant</value>
 	</data>
 	<data name="InAMoment" xml:space="preserve">
-		<value>in a moment</value>
+		<value>dans un instant</value>
 	</data>
 	<data name="SecondsPast" xml:space="preserve">
-		<value>{0}s ago</value>
+		<value>il y a {0}s</value>
 	</data>
 	<data name="SecondsFuture" xml:space="preserve">
-		<value>{0}s from now</value>
+		<value>dans {0}s</value>
 	</data>
 	<data name="MinutePast" xml:space="preserve">
-		<value>1 min ago</value>
+		<value>il y a 1 min</value>
 	</data>
 	<data name="MinuteFuture" xml:space="preserve">
-		<value>1 min from now</value>
+		<value>dans 1 min</value>
 	</data>
 	<data name="MinutesPast" xml:space="preserve">
-		<value>{0} min ago</value>
+		<value>il y a {0} min</value>
 	</data>
 	<data name="MinutesFuture" xml:space="preserve">
-		<value>{0} min from now</value>
+		<value>dans {0} min</value>
 	</data>
 	<data name="HourPast" xml:space="preserve">
-		<value>1 hr ago</value>
+		<value>il y a 1 h</value>
 	</data>
 	<data name="HourFuture" xml:space="preserve">
-		<value>1 hr from now</value>
+		<value>dans 1 h</value>
 	</data>
 	<data name="HoursPast" xml:space="preserve">
-		<value>{0} hr ago</value>
+		<value>il y a {0} h</value>
 	</data>
 	<data name="HoursFuture" xml:space="preserve">
-		<value>{0} hr from now</value>
+		<value>dans {0} h</value>
 	</data>
 	<data name="DayPast" xml:space="preserve">
-		<value>1 day ago</value>
+		<value>il y a 1 jour</value>
 	</data>
 	<data name="DayFuture" xml:space="preserve">
-		<value>1 day from now</value>
+		<value>dans 1 jour</value>
 	</data>
 	<data name="DaysPast" xml:space="preserve">
-		<value>{0} days ago</value>
+		<value>il y a {0} jours</value>
 	</data>
 	<data name="DaysFuture" xml:space="preserve">
-		<value>{0} days from now</value>
+		<value>dans {0} jours</value>
 	</data>
 	<data name="WeeksPast" xml:space="preserve">
-		<value>{0} wk ago</value>
+		<value>il y a {0} sem.</value>
 	</data>
 	<data name="WeeksFuture" xml:space="preserve">
-		<value>{0} wk from now</value>
+		<value>dans {0} sem.</value>
 	</data>
 	<data name="MonthsPast" xml:space="preserve">
-		<value>{0} mo ago</value>
+		<value>il y a {0} mois</value>
 	</data>
 	<data name="MonthsFuture" xml:space="preserve">
-		<value>{0} mo from now</value>
+		<value>dans {0} mois</value>
 	</data>
 	<data name="YearsPast" xml:space="preserve">
-		<value>{0} yr ago</value>
+		<value>il y a {0} an(s)</value>
 	</data>
 	<data name="YearsFuture" xml:space="preserve">
-		<value>{0} yr from now</value>
+		<value>dans {0} an(s)</value>
 	</data>
 	<data name="HijriMonth1" xml:space="preserve">
-		<value>Muharram</value>
+		<value>Mouharram</value>
 	</data>
 	<data name="HijriMonth2" xml:space="preserve">
 		<value>Safar</value>
@@ -118,33 +118,33 @@
 		<value>Rabi Al-Thani</value>
 	</data>
 	<data name="HijriMonth5" xml:space="preserve">
-		<value>Jumada Al-Awwal</value>
+		<value>Joumada Al-Awwal</value>
 	</data>
 	<data name="HijriMonth6" xml:space="preserve">
-		<value>Jumada Al-Thani</value>
+		<value>Joumada Al-Thani</value>
 	</data>
 	<data name="HijriMonth7" xml:space="preserve">
-		<value>Rajab</value>
+		<value>Radjab</value>
 	</data>
 	<data name="HijriMonth8" xml:space="preserve">
-		<value>Shaban</value>
+		<value>Chaaban</value>
 	</data>
 	<data name="HijriMonth9" xml:space="preserve">
 		<value>Ramadan</value>
 	</data>
 	<data name="HijriMonth10" xml:space="preserve">
-		<value>Shawwal</value>
+		<value>Chawwal</value>
 	</data>
 	<data name="HijriMonth11" xml:space="preserve">
-		<value>Dhul Qadah</value>
+		<value>Dhoul Qaeda</value>
 	</data>
 	<data name="HijriMonth12" xml:space="preserve">
-		<value>Dhul Hijjah</value>
+		<value>Dhoul Hijja</value>
 	</data>
     <data name="Jumada2_AlThaniyah" xml:space="preserve">
-		<value>Jumada Al-Thaniyah</value>
+		<value>Joumada Al-Thania</value>
 	</data>
     <data name="Jumada2_AlAkherah" xml:space="preserve">
-		<value>Jumada Al-Akherah</value>
+		<value>Joumada Al-Akhira</value>
 	</data>
 </root>

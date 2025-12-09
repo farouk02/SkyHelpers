@@ -2,53 +2,78 @@
 {
     public class DateHelper
     {
-        public static string RelativeAgo(DateTime dt)
+        public static string RelativeAgo(DateTime dt, System.Globalization.CultureInfo? culture = null)
         {
             if (dt == DateTime.MinValue)
                 return "";
 
+            if (culture != null)
+                Resource.Culture = culture;
+
             var now = dt.Kind == DateTimeKind.Utc ? DateTime.UtcNow : DateTime.Now;
             var diff = now - dt;
-            var future = diff.TotalSeconds < 0;
+            bool future = diff.TotalSeconds < 0;
             var span = TimeSpan.FromSeconds(Math.Abs(diff.TotalSeconds));
 
-            static string suffix(bool f) => f ? "from now" : "ago";
+            string GetString(string pastKey, string futureKey, object arg = null)
+            {
+                string key = future ? futureKey : pastKey;
+                string format = Resource.ResourceManager.GetString(key, culture ?? System.Globalization.CultureInfo.CurrentUICulture) ?? "";
+                return arg == null ? format : string.Format(format, arg);
+            }
 
             if (span.TotalSeconds < 5)
-                return future ? "in a moment" : "just now";
+                return GetString("JustNow", "InAMoment");
             if (span.TotalSeconds < 60)
-                return $"{(int)span.TotalSeconds}s {suffix(future)}";
+                return GetString("SecondsPast", "SecondsFuture", (int)span.TotalSeconds);
             if (span.TotalMinutes < 2)
-                return $"1 min {suffix(future)}";
+                return GetString("MinutePast", "MinuteFuture");
             if (span.TotalMinutes < 60)
-                return $"{(int)span.TotalMinutes} min {suffix(future)}";
+                return GetString("MinutesPast", "MinutesFuture", (int)span.TotalMinutes);
             if (span.TotalHours < 2)
-                return $"1 hr {suffix(future)}";
+                return GetString("HourPast", "HourFuture");
             if (span.TotalHours < 24)
-                return $"{(int)span.TotalHours} hr {suffix(future)}";
+                return GetString("HoursPast", "HoursFuture", (int)span.TotalHours);
             if (span.TotalDays < 2)
-                return $"1 day {suffix(future)}";
+                return GetString("DayPast", "DayFuture");
             if (span.TotalDays < 7)
-                return $"{(int)span.TotalDays} days {suffix(future)}";
+                return GetString("DaysPast", "DaysFuture", (int)span.TotalDays);
             if (span.TotalDays < 30)
-                return $"{(int)(span.TotalDays / 7)} wk {suffix(future)}";
+                return GetString("WeeksPast", "WeeksFuture", (int)(span.TotalDays / 7));
             if (span.TotalDays < 365)
-                return $"{(int)(span.TotalDays / 30)} mo {suffix(future)}";
-            return $"{(int)(span.TotalDays / 365)} yr {suffix(future)}";
+                return GetString("MonthsPast", "MonthsFuture", (int)(span.TotalDays / 30));
+            return GetString("YearsPast", "YearsFuture", (int)(span.TotalDays / 365));
         }
 
-        public static string GetHijriDate(DateTime dt, int adjustDays = 0, bool showMonthNames = true, bool useAlThaniyahForJumada = true)
+        public static string GetHijriDate(DateTime dt, int adjustDays = 0, bool showMonthNames = true, bool useAlThaniyahForJumada = true, System.Globalization.CultureInfo? culture = null)
         {
             dt = dt.AddDays(adjustDays);
             var hijri = new System.Globalization.HijriCalendar();
             int day = hijri.GetDayOfMonth(dt);
             int month = hijri.GetMonth(dt);
             int year = hijri.GetYear(dt);
+            
+            if (culture != null)
+                Resource.Culture = culture;
+             
+            // Explicitly use the culture for resource lookup if provided, otherwise default fallback.
+            var cultureInfo = culture ?? System.Globalization.CultureInfo.CurrentUICulture;
 
             if (showMonthNames)
             {
-                string jumada2 = useAlThaniyahForJumada ? "جمادى الثانية" : "جمادى الآخرة";
-                string[] months = ["", "محرم", "صفر", "ربيع الأول", "ربيع الثاني", "جمادى الأولى", jumada2, "رجب", "شعبان", "رمضان", "شوال", "ذو القعدة", "ذو الحجة"];
+                string jumada2 = Resource.ResourceManager.GetString(useAlThaniyahForJumada ? "Jumada2_AlThaniyah" : "Jumada2_AlAkherah", cultureInfo) ?? "";
+                
+                // Fetch months from resources
+                string[] months = new string[13];
+                months[0] = "";
+                for (int i = 1; i <= 12; i++)
+                {
+                   if (i == 6) 
+                       months[i] = jumada2;
+                   else
+                       months[i] = Resource.ResourceManager.GetString($"HijriMonth{i}", cultureInfo) ?? "";
+                }
+
                 return $"{day:00} {months[month]} {year:0000}";
             }
 
