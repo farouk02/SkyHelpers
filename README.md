@@ -121,3 +121,23 @@ using SkyHelpers;
 var wa = new WhatsApp("AC...", "AuthToken...", "+14155238886");
 await wa.SendMessageAsync("+15551234567", "Hello World!");
 ```
+
+### ImageHelper
+
+Utilities for manipulating images, converting bytes, and saving files.
+
+#### Features
+- **GetImageBytesFromPath**: Safely reads image bytes from a path.
+- **GetImageFromPath**: Loads an `Image` object from a path.
+- **SaveImageToProjectDirectory**: Saves an image to `[AppDir]/Images/[SubDirectory]`.
+- **ImageToBytes / BytesToImage**: Convenient conversion methods.
+- **To24bppRgb**: Standardization.
+
+#### Usage
+```csharp
+using SkyHelpers;
+using System.Drawing;
+
+Image img = ImageHelper.GetImageFromPath("path/to/image.jpg");
+byte[] bytes = ImageHelper.ImageToBytes(img);
+```
