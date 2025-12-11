@@ -1,4 +1,6 @@
-﻿namespace SkyHelpers
+﻿using SkyHelpers.Resources;
+
+namespace SkyHelpers
 {
     public class DateHelper
     {
