@@ -122,6 +122,24 @@ var wa = new WhatsApp("AC...", "AuthToken...", "+14155238886");
 await wa.SendMessageAsync("+15551234567", "Hello World!");
 ```
 
+```
+
+### Sms
+
+A simple wrapper around Twilio for sending SMS messages.
+
+#### Methods
+- **SendAsync**: Sends an SMS message from the configured sender to a recipient. Handles number formatting (defaults to +213 for Algeria).
+
+#### Usage
+```csharp
+using SkyHelpers;
+
+var sms = new Sms("AC...", "AuthToken...", "+15550101234");
+await sms.SendAsync("+15559876543", "Hello World!");
+await sms.SendAsync("0550123456", "Hello Algeria!"); // Auto-formats to +213
+```
+
 ### ImageHelper
 
 Utilities for manipulating images, converting bytes, and saving files.
