@@ -166,6 +166,22 @@ var dz = codes.FirstOrDefault(c => c.Name == "Algeria");
 Console.WriteLine(dz.Code); // Output: +213
 ```
 
+### MachineIdentifier
+
+Generates a unique hardware-based identifier for the machine running the application.
+
+#### Features
+- **GetUniqueIdentifier**: Returns a hashed string derived from CPU ID, BIOS Serial Number, and BaseBoard Serial Number.
+- **Fallbacks**: Robustly handles missing hardware information by trying multiple identifiers.
+
+#### Usage
+```csharp
+using SkyHelpers;
+
+string uniqueId = MachineIdentifier.GetUniqueIdentifier();
+Console.WriteLine(uniqueId); // e.g., "a1b2c3d4..."
+```
+
 ### ImageHelper
 
 Utilities for manipulating images, converting bytes, and saving files.
