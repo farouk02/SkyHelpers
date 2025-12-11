@@ -122,22 +122,48 @@ var wa = new WhatsApp("AC...", "AuthToken...", "+14155238886");
 await wa.SendMessageAsync("+15551234567", "Hello World!");
 ```
 
-```
-
 ### Sms
 
 A simple wrapper around Twilio for sending SMS messages.
 
+#### Configuration
+The `Sms` class is initialized with your Twilio credentials and settings:
+- **accountSid**: Your Twilio Account SID.
+- **authToken**: Your Twilio Auth Token.
+- **fromNumber**: The Twilio phone number to send from.
+- **phoneCode** (Optional): The default country dialing code to use if not provided in the recipient number (e.g., "+213"). Defaults to `+213`.
+
 #### Methods
-- **SendAsync**: Sends an SMS message from the configured sender to a recipient. Handles number formatting (defaults to +213 for Algeria).
+- **SendAsync**: Sends an SMS message to a recipient. Handles number formatting by automatically prepending the `phoneCode` if the number starts with `0`.
 
 #### Usage
 ```csharp
 using SkyHelpers;
 
+// Default Configuration (defaults to +213)
 var sms = new Sms("AC...", "AuthToken...", "+15550101234");
-await sms.SendAsync("+15559876543", "Hello World!");
-await sms.SendAsync("0550123456", "Hello Algeria!"); // Auto-formats to +213
+await sms.SendAsync("0550123456", "Hello Algeria!"); // Sends to: +213550123456
+
+// Custom Phone Code Config// Custom Phone Code: USA (+1)
+var usa = PhoneCode.GetAll().FirstOrDefault(c => c.Name == "United States");
+var smsUS = new Sms("AC...", "AuthToken...", "+15550101234", usa?.Code ?? "+1");
+await smsUS.SendAsync("5551234567", "Hello USA!"); // -> +15551234567
+```
+
+### PhoneCode
+
+A utility class providing a comprehensive list of international dialing codes.
+
+#### Features
+- **GetAll / GetCountryPhoneCodes**: Returns a list of `CountryInfo` objects containing country names and dialing codes (e.g., "Algeria", "+213").
+
+#### Usage
+```csharp
+using SkyHelpers;
+
+var codes = PhoneCode.GetAll();
+var dz = codes.FirstOrDefault(c => c.Name == "Algeria");
+Console.WriteLine(dz.Code); // Output: +213
 ```
 
 ### ImageHelper

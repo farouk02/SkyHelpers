@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SkyHelpers
 {
-    public class Sms(string accountSid, string authToken, string fromNumber)
+    public class Sms(string accountSid, string authToken, string fromNumber, string phoneCode = "+213")
     {
         public async Task<MessageResource> SendAsync(string to, string message)
         {
@@ -23,15 +23,15 @@ namespace SkyHelpers
             }
             else
             {
-                // Default to Algeria (+213) if no country code provided
+                // Default to provided phone code (default +213) if no country code provided
                 // Also handle cases where user might put local 0 (e.g. 055...) -> +21355...
                 if (to.StartsWith('0'))
                 {
-                    number = string.Concat("+213", to.AsSpan(1));
+                    number = string.Concat(phoneCode, to.AsSpan(1));
                 }
                 else
                 {
-                    number = "+213" + to;
+                    number = phoneCode + to;
                 }
             }
 
