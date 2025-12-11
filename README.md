@@ -23,12 +23,13 @@ using System.Globalization;
 var date = DateTime.Now.AddMinutes(-5);
 string relative = DateHelper.RelativeAgo(date); // "5 min ago" (if en)
 
-// To change language, set the current thread's culture:
-// CultureInfo.CurrentUICulture = new CultureInfo("fr");
-// relative = DateHelper.RelativeAgo(date); // "il y a 5 min"
+// Explicit Culture (French)
+var frCulture = new CultureInfo("fr");
+string relativeFr = DateHelper.RelativeAgo(date, frCulture); // "il y a 5 min"
 
 // Hijri Date
 string hijri = DateHelper.GetHijriDate(DateTime.Now); // "10 Ramadan 1445"
+string hijriAr = DateHelper.GetHijriDate(DateTime.Now, culture: new CultureInfo("ar")); // "10 رمضان 1445"
 ```
 
 ### LocalizationHelper
@@ -38,9 +39,165 @@ Internal helper for retrieving localized strings.
 #### Features
 - **GetString**: Retrieves a localized string key.
 - **GetRelativeString**: Helper for past/future relative date strings.
-- **Automatic Culture**: Always uses `CultureInfo.CurrentUICulture`.
+- **Culture Support**: Accepts optional `CultureInfo`, defaults to `CurrentUICulture`.
 
 #### Usage (Internal)
 ```csharp
 string text = LocalizationHelper.GetString("KeyName");
+string textFr = LocalizationHelper.GetString("KeyName", new CultureInfo("fr"));
+```
+
+### Parse
+
+Safe parsing utilities for common types.
+
+#### Features
+- **Int**: Parses to `int?`. Returns `null` on failure.
+- **Decimal**: Parses to `decimal`. Returns `0` on failure.
+- **Double**: Parses to `double`. Returns `0` on failure.
+- **Boolean**: Parses to `bool`. Returns `false` on failure.
+- **DateTime**: Parses to `DateTime?`. Returns `null` on failure.
+
+#### Usage
+```csharp
+using SkyHelpers;
+
+int? id = Parse.Int("123");
+decimal price = Parse.Decimal("19.99");
+double lat = Parse.Double("48.8566");
+bool isActive = Parse.Boolean("true");
+DateTime? date = Parse.DateTime("2023-01-01");
+```
+
+### Hooks
+
+Interfaces for common entity framework entity lifecycle hooks.
+
+#### Features
+- **IBeforeCreate**: `void BeforeCreate()`
+- **IBeforeUpdate**: `void BeforeUpdate()`
+- **IBeforeDelete**: `void BeforeDelete()`
+
+#### Usage
+```csharp
+using SkyHelpers;
+
+public class MyEntity : IBeforeCreate
+{
+    public void BeforeCreate()
+    {
+        // Logic before creation
+    }
+}
+```
+
+### PasswordHelper
+
+BCrypt password hashing compatible with Laravel (`$2y$` prefix).
+
+#### Features
+- **HashPassword**: Hashes a password with BCrypt (default cost 10) and uses `$2y$` prefix.
+- **VerifyPassword**: Verifies a password against a hash (supports `$2y$`, `$2a$`, `$2b$`).
+
+#### Usage
+```csharp
+using SkyHelpers;
+
+string hash = PasswordHelper.HashPassword("secret");
+bool isValid = PasswordHelper.VerifyPassword("secret", hash);
+```
+
+### WhatsApp
+
+A simple wrapper around Twilio for sending WhatsApp messages.
+
+#### Properties
+- **SendMessageAsync**: Sends a WhatsApp message from the configured sender to a recipient.
+
+#### Usage
+```csharp
+using SkyHelpers;
+
+var wa = new WhatsApp("AC...", "AuthToken...", "+14155238886");
+await wa.SendMessageAsync("+15551234567", "Hello World!");
+```
+
+### Sms
+
+A simple wrapper around Twilio for sending SMS messages.
+
+#### Configuration
+The `Sms` class is initialized with your Twilio credentials and settings:
+- **accountSid**: Your Twilio Account SID.
+- **authToken**: Your Twilio Auth Token.
+- **fromNumber**: The Twilio phone number to send from.
+- **phoneCode** (Optional): The default country dialing code to use if not provided in the recipient number (e.g., "+213"). Defaults to `+213`.
+
+#### Methods
+- **SendAsync**: Sends an SMS message to a recipient. Handles number formatting by automatically prepending the `phoneCode` if the number starts with `0`.
+
+#### Usage
+```csharp
+using SkyHelpers;
+
+// Default Configuration (defaults to +213)
+var sms = new Sms("AC...", "AuthToken...", "+15550101234");
+await sms.SendAsync("0550123456", "Hello Algeria!"); // Sends to: +213550123456
+
+// Custom Phone Code Config// Custom Phone Code: USA (+1)
+var usa = PhoneCode.GetAll().FirstOrDefault(c => c.Name == "United States");
+var smsUS = new Sms("AC...", "AuthToken...", "+15550101234", usa?.Code ?? "+1");
+await smsUS.SendAsync("5551234567", "Hello USA!"); // -> +15551234567
+```
+
+### PhoneCode
+
+A utility class providing a comprehensive list of international dialing codes.
+
+#### Features
+- **GetAll / GetCountryPhoneCodes**: Returns a list of `CountryInfo` objects containing country names and dialing codes (e.g., "Algeria", "+213").
+
+#### Usage
+```csharp
+using SkyHelpers;
+
+var codes = PhoneCode.GetAll();
+var dz = codes.FirstOrDefault(c => c.Name == "Algeria");
+Console.WriteLine(dz.Code); // Output: +213
+```
+
+### MachineIdentifier
+
+Generates a unique hardware-based identifier for the machine running the application.
+
+#### Features
+- **GetUniqueIdentifier**: Returns a hashed string derived from CPU ID, BIOS Serial Number, and BaseBoard Serial Number.
+- **Fallbacks**: Robustly handles missing hardware information by trying multiple identifiers.
+
+#### Usage
+```csharp
+using SkyHelpers;
+
+string uniqueId = MachineIdentifier.GetUniqueIdentifier();
+Console.WriteLine(uniqueId); // e.g., "a1b2c3d4..."
+```
+
+### ImageHelper
+
+Utilities for manipulating images, converting bytes, and saving files.
+
+#### Features
+- **GetImageBytesFromPath**: Safely reads image bytes from a path.
+- **GetImageFromPath**: Loads an `Image` object from a path.
+- **SaveImageToProjectDirectory**: Saves an image to `[AppDir]/Images/[SubDirectory]`.
+- **ImageToBytes / BytesToImage**: Convenient conversion methods.
+- **To24bppRgb**: Standardization.
+
+#### Usage
+```csharp
+using SkyHelpers;
+using System.Drawing;
+
+Image img = ImageHelper.GetImageFromPath("path/to/image.jpg");
+byte[] bytes = ImageHelper.ImageToBytes(img);
 ```
