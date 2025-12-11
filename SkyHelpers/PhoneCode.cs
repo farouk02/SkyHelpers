@@ -10,10 +10,8 @@ public class CountryInfo(string name, string code)
 
 public static class PhoneCode
 {
-    public static List<CountryInfo> GetAll() => GetCountryPhoneCodes();
-
-    public static List<CountryInfo> GetCountryPhoneCodes()
-        {
+    public static List<CountryInfo> GetAll()
+    {
         return
             [
                 new("Afghanistan", "+93"),
