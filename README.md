@@ -57,6 +57,8 @@ Safe parsing utilities for common types.
 - **Double**: Parses to `double`. Returns `0` on failure.
 - **Boolean**: Parses to `bool`. Returns `false` on failure.
 - **DateTime**: Parses to `DateTime?`. Returns `null` on failure.
+- **TimeOnly**: Parses to `TimeOnly?`. Returns `null` on failure.
+- **DateOnly**: Parses to `DateOnly?`. Returns `null` on failure.
 
 #### Usage
 ```csharp
@@ -67,6 +69,8 @@ decimal price = Parse.Decimal("19.99");
 double lat = Parse.Double("48.8566");
 bool isActive = Parse.Boolean("true");
 DateTime? date = Parse.DateTime("2023-01-01");
+TimeOnly? time = Parse.TimeOnly("14:30");
+DateOnly? dateOnly = Parse.DateOnly("2023-12-25");
 ```
 
 ### Hooks
