@@ -196,6 +196,7 @@ Utilities for manipulating images, converting bytes, and saving files.
 - **SaveImageToProjectDirectory**: Saves an image to `[AppDir]/Images/[SubDirectory]`.
 - **ImageToBytes / BytesToImage**: Convenient conversion methods.
 - **To24bppRgb**: Standardization.
+- **ResizeImage**: Resizes an image while preserving aspect ratio and optimizing output format (JPEG vs PNG).
 
 #### Usage
 ```csharp
@@ -204,4 +205,9 @@ using System.Drawing;
 
 Image img = ImageHelper.GetImageFromPath("path/to/image.jpg");
 byte[] bytes = ImageHelper.ImageToBytes(img);
+
+// Resizing
+byte[] originalBytes = File.ReadAllBytes("large_image.jpg");
+// Resize to 800px width (height calculated automatically)
+byte[] resizedBytes = ImageHelper.ResizeImage(originalBytes, width: 800); 
 ```

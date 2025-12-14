@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 
@@ -121,5 +122,78 @@ public class ImageHelper
         }
 
         return ms.ToArray();
+    }
+
+    public static byte[] ResizeImage(byte[] imageBytes, int? width = null, int? height = null)
+    {
+        if (imageBytes == null || imageBytes.Length == 0)
+            return null;
+
+        if (width == null && height == null)
+            return imageBytes; // No resize needed
+
+        try
+        {
+            using var ms = new MemoryStream(imageBytes);
+            using var image = Image.FromStream(ms);
+            
+            // Check if source has transparency
+            bool hasAlpha = Image.IsAlphaPixelFormat(image.PixelFormat);
+
+            int newWidth;
+            int newHeight;
+
+            if (width.HasValue && height.HasValue)
+            {
+                newWidth = width.Value;
+                newHeight = height.Value;
+            }
+            else if (width.HasValue)
+            {
+                newWidth = width.Value;
+                var aspectRatio = (double)image.Height / image.Width;
+                newHeight = (int)(newWidth * aspectRatio);
+            }
+            else
+            {
+                newHeight = height.Value;
+                var aspectRatio = (double)image.Width / image.Height;
+                newWidth = (int)(newHeight * aspectRatio);
+            }
+
+            // Use appropriate pixel format
+            var format = hasAlpha ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb;
+            using var resizedImage = new Bitmap(newWidth, newHeight, format);
+            using var graphics = Graphics.FromImage(resizedImage);
+            
+            // Set high quality resizing settings
+            graphics.CompositingQuality = CompositingQuality.HighQuality;
+            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
+            graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+            using var attributes = new ImageAttributes();
+            attributes.SetWrapMode(WrapMode.TileFlipXY);
+
+            graphics.DrawImage(image, new Rectangle(0, 0, newWidth, newHeight),
+                0, 0, image.Width, image.Height, GraphicsUnit.Pixel, attributes);
+
+            using var outStream = new MemoryStream();
+            if (hasAlpha)
+            {
+                resizedImage.Save(outStream, ImageFormat.Png);
+            }
+            else
+            {
+                resizedImage.Save(outStream, ImageFormat.Jpeg);
+            }
+            return outStream.ToArray();
+        }
+        catch
+        {
+            // Return original image if resize fails, or null depending on requirement. 
+            // For now, logging isn't available, so we return null to avoid bad data.
+            return null;
+        }
     }
 }
