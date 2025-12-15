@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
 
     <PackageId>OneCleek.SkyHelpers</PackageId>
-    <Version>1.0.5</Version>
+    <Version>1.0.6</Version>
     <Authors>Farouk Kious</Authors>
     <Company>OneCleek</Company>
     <Description>A helpful library for doing utility tasks.</Description>
