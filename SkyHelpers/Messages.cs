@@ -42,8 +42,8 @@ namespace SkyHelpers
                     Body = message
                 };
 
-                Twilio.Rest.Api.V2010.Account.MessageResource.Create(messageOptions);
-                return true;
+                var x = Twilio.Rest.Api.V2010.Account.MessageResource.Create(messageOptions);
+                return x.Status != Twilio.Rest.Api.V2010.Account.MessageResource.StatusEnum.Failed;
             }
             catch
             {
@@ -71,8 +71,8 @@ namespace SkyHelpers
                     Body = message
                 };
 
-                Twilio.Rest.Api.V2010.Account.MessageResource.Create(messageOptions);
-                return true;
+                var x = Twilio.Rest.Api.V2010.Account.MessageResource.Create(messageOptions);
+                return x.Status != Twilio.Rest.Api.V2010.Account.MessageResource.StatusEnum.Failed;
             }
             catch
             {
