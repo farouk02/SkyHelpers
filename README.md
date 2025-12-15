@@ -1,6 +1,11 @@
 # SkyHelpers
 
-A collection of useful C# helpers and extensions.
+A collection of useful C# helpers and extensions for **Windows Forms** applications.
+
+## Platform Requirements
+
+- **Target Framework**: .NET 10.0 (Windows)
+- **Platform**: Windows only (uses Windows Forms)
 
 ## Helpers
 
