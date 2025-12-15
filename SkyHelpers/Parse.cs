@@ -7,5 +7,9 @@ namespace SkyHelpers
         public static double Double(object? value) => double.TryParse(value?.ToString(), out double result) ? result : 0;
         public static bool Boolean(object? value) => bool.TryParse(value?.ToString(), out bool result) && result;
         public static DateTime? DateTime(object? value) => System.DateTime.TryParse(value?.ToString(), out DateTime result) ? result : null;
+
+        public static TimeOnly? TimeOnly(object? value) => System.TimeOnly.TryParse(value?.ToString(), out TimeOnly result) ? result : null;
+
+        public static DateOnly? DateOnly(object? value) => System.DateOnly.TryParse(value?.ToString(), out DateOnly result) ? result : null;
     }
 }

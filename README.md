@@ -1,6 +1,11 @@
 # SkyHelpers
 
-A collection of useful C# helpers and extensions.
+A collection of useful C# helpers and extensions for **Windows Forms** applications.
+
+## Platform Requirements
+
+- **Target Framework**: .NET 10.0 (Windows)
+- **Platform**: Windows only (uses Windows Forms)
 
 ## Helpers
 
@@ -57,6 +62,8 @@ Safe parsing utilities for common types.
 - **Double**: Parses to `double`. Returns `0` on failure.
 - **Boolean**: Parses to `bool`. Returns `false` on failure.
 - **DateTime**: Parses to `DateTime?`. Returns `null` on failure.
+- **TimeOnly**: Parses to `TimeOnly?`. Returns `null` on failure.
+- **DateOnly**: Parses to `DateOnly?`. Returns `null` on failure.
 
 #### Usage
 ```csharp
@@ -67,6 +74,8 @@ decimal price = Parse.Decimal("19.99");
 double lat = Parse.Double("48.8566");
 bool isActive = Parse.Boolean("true");
 DateTime? date = Parse.DateTime("2023-01-01");
+TimeOnly? time = Parse.TimeOnly("14:30");
+DateOnly? dateOnly = Parse.DateOnly("2023-12-25");
 ```
 
 ### Hooks
@@ -192,6 +201,7 @@ Utilities for manipulating images, converting bytes, and saving files.
 - **SaveImageToProjectDirectory**: Saves an image to `[AppDir]/Images/[SubDirectory]`.
 - **ImageToBytes / BytesToImage**: Convenient conversion methods.
 - **To24bppRgb**: Standardization.
+- **ResizeImage**: Resizes an image while preserving aspect ratio and optimizing output format (JPEG vs PNG).
 
 #### Usage
 ```csharp
@@ -200,4 +210,37 @@ using System.Drawing;
 
 Image img = ImageHelper.GetImageFromPath("path/to/image.jpg");
 byte[] bytes = ImageHelper.ImageToBytes(img);
+
+// Resizing
+byte[] originalBytes = File.ReadAllBytes("large_image.jpg");
+// Resize to 800px width (height calculated automatically)
+byte[] resizedBytes = ImageHelper.ResizeImage(originalBytes, width: 800); 
+```
+
+### ImageCropperForm
+
+A Windows Forms dialog for interactive image cropping with zoom and pan support.
+
+#### Features
+- **Square Crop**: Fixed 400x400px square crop area with dark overlay.
+- **Zoom Control**: Slider to zoom in/out (50% - 300%).
+- **Pan Support**: Drag the image to position it within the crop area.
+- **High-Quality Output**: Uses bicubic interpolation for smooth cropping.
+
+#### Properties
+- **CroppedImage**: Returns the cropped `Image` after confirmation.
+
+#### Usage
+```csharp
+using SkyHelpers.Common;
+using System.Drawing;
+
+Image originalImage = Image.FromFile("photo.jpg");
+using var cropper = new ImageCropperForm(originalImage);
+
+if (cropper.ShowDialog() == DialogResult.OK)
+{
+    Image croppedImage = cropper.CroppedImage;
+    croppedImage.Save("cropped_photo.jpg");
+}
 ```
