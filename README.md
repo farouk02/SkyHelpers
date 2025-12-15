@@ -116,47 +116,32 @@ string hash = PasswordHelper.HashPassword("secret");
 bool isValid = PasswordHelper.VerifyPassword("secret", hash);
 ```
 
-### WhatsApp
+### Messages
 
-A simple wrapper around Twilio for sending WhatsApp messages.
-
-#### Properties
-- **SendMessageAsync**: Sends a WhatsApp message from the configured sender to a recipient.
-
-#### Usage
-```csharp
-using SkyHelpers;
-
-var wa = new WhatsApp("AC...", "AuthToken...", "+14155238886");
-await wa.SendMessageAsync("+15551234567", "Hello World!");
-```
-
-### Sms
-
-A simple wrapper around Twilio for sending SMS messages.
+A unified Twilio wrapper for sending WhatsApp and SMS messages.
 
 #### Configuration
-The `Sms` class is initialized with your Twilio credentials and settings:
+The `Messages` class is initialized with your Twilio credentials:
 - **accountSid**: Your Twilio Account SID.
 - **authToken**: Your Twilio Auth Token.
 - **fromNumber**: The Twilio phone number to send from.
-- **phoneCode** (Optional): The default country dialing code to use if not provided in the recipient number (e.g., "+213"). Defaults to `+213`.
+- **phoneCode** (Optional): Default country dialing code (e.g., "+213"). Defaults to `+213`.
 
 #### Methods
-- **SendAsync**: Sends an SMS message to a recipient. Handles number formatting by automatically prepending the `phoneCode` if the number starts with `0`.
+- **SendWhatsAppAsync**: Sends a WhatsApp message. Handles `+`, `00`, and local number formats.
+- **SendSmsAsync**: Sends an SMS message. Requires a `messagingServiceSid`. Handles number formatting automatically.
 
 #### Usage
 ```csharp
 using SkyHelpers;
 
-// Default Configuration (defaults to +213)
-var sms = new Sms("AC...", "AuthToken...", "+15550101234");
-await sms.SendAsync("0550123456", "Hello Algeria!"); // Sends to: +213550123456
+var msg = new Messages("AC...", "AuthToken...", "+14155238886");
 
-// Custom Phone Code Config// Custom Phone Code: USA (+1)
-var usa = PhoneCode.GetAll().FirstOrDefault(c => c.Name == "United States");
-var smsUS = new Sms("AC...", "AuthToken...", "+15550101234", usa?.Code ?? "+1");
-await smsUS.SendAsync("5551234567", "Hello USA!"); // -> +15551234567
+// Send WhatsApp
+await msg.SendWhatsAppAsync("+15551234567", "Hello via WhatsApp!");
+
+// Send SMS (requires Messaging Service SID)
+await msg.SendSmsAsync("0550123456", "Hello via SMS!", "MG...");
 ```
 
 ### PhoneCode
