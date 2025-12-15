@@ -124,7 +124,7 @@ public class ImageHelper
         return ms.ToArray();
     }
 
-    public static byte[] ResizeImage(byte[] imageBytes, int? width = null, int? height = null)
+    public static byte[]? ResizeImage(byte[] imageBytes, int? width = null, int? height = null)
     {
         if (imageBytes == null || imageBytes.Length == 0)
             return null;
@@ -136,7 +136,7 @@ public class ImageHelper
         {
             using var ms = new MemoryStream(imageBytes);
             using var image = Image.FromStream(ms);
-            
+
             // Check if source has transparency
             bool hasAlpha = Image.IsAlphaPixelFormat(image.PixelFormat);
 
@@ -154,18 +154,22 @@ public class ImageHelper
                 var aspectRatio = (double)image.Height / image.Width;
                 newHeight = (int)(newWidth * aspectRatio);
             }
-            else
+            else if (height.HasValue)
             {
                 newHeight = height.Value;
                 var aspectRatio = (double)image.Width / image.Height;
                 newWidth = (int)(newHeight * aspectRatio);
+            }
+            else
+            {
+                return imageBytes;
             }
 
             // Use appropriate pixel format
             var format = hasAlpha ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb;
             using var resizedImage = new Bitmap(newWidth, newHeight, format);
             using var graphics = Graphics.FromImage(resizedImage);
-            
+
             // Set high quality resizing settings
             graphics.CompositingQuality = CompositingQuality.HighQuality;
             graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
@@ -191,8 +195,6 @@ public class ImageHelper
         }
         catch
         {
-            // Return original image if resize fails, or null depending on requirement. 
-            // For now, logging isn't available, so we return null to avoid bad data.
             return null;
         }
     }
