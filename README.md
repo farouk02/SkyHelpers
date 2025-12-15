@@ -128,8 +128,10 @@ The `Messages` class is initialized with your Twilio credentials:
 - **phoneCode** (Optional): Default country dialing code (e.g., "+213"). Defaults to `+213`.
 
 #### Methods
-- **SendWhatsAppAsync**: Sends a WhatsApp message. Handles `+`, `00`, and local number formats.
-- **SendSmsAsync**: Sends an SMS message. Requires a `messagingServiceSid`. Handles number formatting automatically.
+- **SendWhatsApp**: Sends a WhatsApp message. Returns `true` on success, `false` on failure.
+- **SendSms**: Sends an SMS message. Returns `true` on success, `false` on failure.
+
+Both methods automatically handle phone number formats (`+`, `00`, and local numbers with leading `0`).
 
 #### Usage
 ```csharp
@@ -138,10 +140,14 @@ using SkyHelpers;
 var msg = new Messages("AC...", "AuthToken...", "+14155238886");
 
 // Send WhatsApp
-await msg.SendWhatsAppAsync("+15551234567", "Hello via WhatsApp!");
+bool whatsAppSent = msg.SendWhatsApp("+15551234567", "Hello via WhatsApp!");
+if (whatsAppSent)
+    Console.WriteLine("WhatsApp sent!");
 
 // Send SMS (requires Messaging Service SID)
-await msg.SendSmsAsync("0550123456", "Hello via SMS!", "MG...");
+bool smsSent = msg.SendSms("0550123456", "Hello via SMS!", "MG...");
+if (smsSent)
+    Console.WriteLine("SMS sent!");
 ```
 
 ### PhoneCode
