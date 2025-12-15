@@ -1,5 +1,4 @@
 using Twilio;
-using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 
 namespace SkyHelpers
@@ -30,18 +29,26 @@ namespace SkyHelpers
         /// </summary>
         /// <param name="to">Recipient phone number (can be local, with +, or with 00 prefix)</param>
         /// <param name="message">Message content to send</param>
-        /// <returns>MessageResource containing the sent message details</returns>
-        public MessageResource SendWhatsApp(string to, string message)
+        /// <returns>True if message was sent successfully, false otherwise</returns>
+        public bool SendWhatsApp(string to, string message)
         {
-            var number = NormalizePhoneNumber(to);
-
-            var messageOptions = new CreateMessageOptions(new PhoneNumber($"whatsapp:{number}"))
+            try
             {
-                From = new PhoneNumber($"whatsapp:{_fromNumber}"),
-                Body = message
-            };
+                var number = NormalizePhoneNumber(to);
 
-            return MessageResource.Create(messageOptions);
+                var messageOptions = new Twilio.Rest.Api.V2010.Account.CreateMessageOptions(new PhoneNumber($"whatsapp:{number}"))
+                {
+                    From = new PhoneNumber($"whatsapp:{_fromNumber}"),
+                    Body = message
+                };
+
+                Twilio.Rest.Api.V2010.Account.MessageResource.Create(messageOptions);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -50,20 +57,27 @@ namespace SkyHelpers
         /// <param name="to">Recipient phone number (can be local, with +, or with 00 prefix)</param>
         /// <param name="message">Message content to send</param>
         /// <param name="messagingServiceSid">Twilio Messaging Service SID</param>
-        /// <returns>MessageResource containing the sent message details</returns>
-        /// <exception cref="Exception">Throws if SMS sending fails</exception>
-        public MessageResource SendSms(string to, string message, string messagingServiceSid)
+        /// <returns>True if message was sent successfully, false otherwise</returns>
+        public bool SendSms(string to, string message, string messagingServiceSid)
         {
-            var toNumber = NormalizePhoneNumber(to);
-
-            var messageOptions = new CreateMessageOptions(new PhoneNumber(toNumber))
+            try
             {
-                MessagingServiceSid = messagingServiceSid,
-                From = new PhoneNumber(_fromNumber),
-                Body = message
-            };
+                var toNumber = NormalizePhoneNumber(to);
 
-            return MessageResource.Create(messageOptions);
+                var messageOptions = new Twilio.Rest.Api.V2010.Account.CreateMessageOptions(new PhoneNumber(toNumber))
+                {
+                    MessagingServiceSid = messagingServiceSid,
+                    From = new PhoneNumber(_fromNumber),
+                    Body = message
+                };
+
+                Twilio.Rest.Api.V2010.Account.MessageResource.Create(messageOptions);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
