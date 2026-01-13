@@ -1,11 +1,10 @@
 # SkyHelpers
 
-A collection of useful C# helpers and extensions for **Windows Forms** applications.
+A collection of useful C# helpers and extensions for ** .NET 10.0 ** applications.
 
 ## Platform Requirements
 
-- **Target Framework**: .NET 10.0 (Windows)
-- **Platform**: Windows only (uses Windows Forms)
+- **Target Framework**: .NET 10.0
 
 ## Helpers
 
@@ -206,32 +205,4 @@ byte[] bytes = ImageHelper.ImageToBytes(img);
 byte[] originalBytes = File.ReadAllBytes("large_image.jpg");
 // Resize to 800px width (height calculated automatically)
 byte[] resizedBytes = ImageHelper.ResizeImage(originalBytes, width: 800); 
-```
-
-### ImageCropperForm
-
-A Windows Forms dialog for interactive image cropping with zoom and pan support.
-
-#### Features
-- **Square Crop**: Fixed 400x400px square crop area with dark overlay.
-- **Zoom Control**: Slider to zoom in/out (50% - 300%).
-- **Pan Support**: Drag the image to position it within the crop area.
-- **High-Quality Output**: Uses bicubic interpolation for smooth cropping.
-
-#### Properties
-- **CroppedImage**: Returns the cropped `Image` after confirmation.
-
-#### Usage
-```csharp
-using SkyHelpers.Common;
-using System.Drawing;
-
-Image originalImage = Image.FromFile("photo.jpg");
-using var cropper = new ImageCropperForm(originalImage);
-
-if (cropper.ShowDialog() == DialogResult.OK)
-{
-    Image croppedImage = cropper.CroppedImage;
-    croppedImage.Save("cropped_photo.jpg");
-}
 ```

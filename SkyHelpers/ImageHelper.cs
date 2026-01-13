@@ -29,6 +29,11 @@ public class ImageHelper
     // Method to get Image object from a file path
     public static Image? GetImageFromPath(string imagePath)
     {
+        if (string.IsNullOrEmpty(imagePath) || !File.Exists(imagePath))
+        {
+            return null;
+        }
+
         byte[]? imageBytes = GetImageBytesFromPath(imagePath);
 
         if (imageBytes != null && imageBytes.Length > 0)
@@ -101,8 +106,11 @@ public class ImageHelper
         return a.AsSpan().SequenceEqual(b);
     }
 
-    public static byte[] ImageToBytes(Image img)
+    public static byte[]? ImageToBytes(Image img)
     {
+        if (img == null)
+            return null;
+
         using var ms = new MemoryStream();
 
         // Clone to detach from any underlying stream used by the control

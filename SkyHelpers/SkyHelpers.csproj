@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
 
     <PackageId>OneCleek.SkyHelpers</PackageId>
-    <Version>1.0.5</Version>
+    <Version>1.0.6</Version>
     <Authors>Farouk Kious</Authors>
     <Company>OneCleek</Company>
     <Description>A helpful library for doing utility tasks.</Description>
@@ -38,7 +38,11 @@
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="System.Drawing.Common" Version="10.0.1" />
     <PackageReference Include="System.Management" Version="10.0.1" />
-    <PackageReference Include="Twilio" Version="7.13.8" />
+    <PackageReference Include="Twilio" Version="7.14.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\" />
   </ItemGroup>
 
 </Project>
